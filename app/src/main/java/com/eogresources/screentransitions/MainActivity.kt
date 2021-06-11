@@ -49,8 +49,8 @@ fun AppNav() {
     val navController = rememberNavController()
 
     NavHost(navController = navController, startDestination = Screen.Home.route) {
-//        addForm(navController)
-        addHome()
+        addForm(navController)
+        addHome(navController)
     }
 }
 
@@ -88,7 +88,7 @@ private fun NavGraphBuilder.addForm(navController: NavController) {
     }
 }
 
-private fun NavGraphBuilder.addHome2(navController: NavController) {
+private fun NavGraphBuilder.addHome(navController: NavController) {
     composable(Screen.Home.route) {
         Log.i("Home", "Route Composable")
         val homeViewModel = hiltViewModel<HomeViewModel>()
@@ -98,33 +98,6 @@ private fun NavGraphBuilder.addHome2(navController: NavController) {
             openForm = { navController.navigate(Screen.Form.route) },
             openFormForNumber = { navController.navigate("${Screen.Form.route}?five=$it") }
         )
-    }
-}
-
-private fun NavGraphBuilder.addHome() {
-    composable(Screen.Home.route) {
-        Log.i("Home", "Route Composable")
-        val homeViewModel = hiltViewModel<HomeViewModel>()
-        HomeScreen(
-            homeCount = homeViewModel.homeCount,
-            updateCount = { homeViewModel.updateCount() },
-        )
-    }
-}
-
-@Composable
-fun HomeScreen(
-    homeCount: Int,
-    updateCount: () -> Unit,
-) {
-    Log.i("Home", "Screen")
-    Column(modifier = Modifier.fillMaxSize()) {
-        Spacer(modifier = Modifier.height(25.dp))
-        Button(onClick = { updateCount() }) {
-            Text("Increment count")
-        }
-        Spacer(modifier = Modifier.height(25.dp))
-        Text("Count is: $homeCount")
     }
 }
 
